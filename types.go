@@ -22,9 +22,9 @@ type ClientConfig struct {
 
 // RequestConfig encapsula as configurações específicas de uma requisição HTTP.
 type RequestConfig struct {
-	headers map[string]string // Cabeçalhos HTTP.
-	query   map[string]string // Parâmetros de query string.
-	body    []byte            // Corpo da requisição.
+	Headers map[string]string // Cabeçalhos HTTP.
+	Query   map[string]string // Parâmetros de query string.
+	Body    []byte            // Corpo da requisição.
 }
 
 // Option define uma função que modifica a configuração do cliente HTTP.

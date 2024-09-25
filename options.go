@@ -7,8 +7,8 @@ import (
 
 func NewRequestConfig() *RequestConfig {
 	return &RequestConfig{
-		headers: make(map[string]string),
-		query:   make(map[string]string),
+		Headers: make(map[string]string),
+		Query:   make(map[string]string),
 	}
 }
 
@@ -20,19 +20,19 @@ func WithCustomTransport(ht *http.Client) ClientOption {
 
 // WithHeader adiciona um cabeçalho à configuração da requisição
 func (r *RequestConfig) WithHeader(key, value string) *RequestConfig {
-	r.headers[key] = value
+	r.Headers[key] = value
 	return r
 }
 
 // WithQuery adiciona um parâmetro de query à configuração da requisição
 func (r *RequestConfig) WithQuery(key, value string) *RequestConfig {
-	r.query[key] = value
+	r.Query[key] = value
 	return r
 }
 
 // WithBody define o corpo da requisição
 func (r *RequestConfig) WithBody(body []byte) *RequestConfig {
-	r.body = body
+	r.Body = body
 	return r
 }
 
@@ -44,8 +44,8 @@ func WithRetry(r *RetryConfig) ClientOption {
 	}
 }
 
-func WithTimeout(t int) ClientOption {
+func WithTimeout(t time.Duration) ClientOption {
 	return func(c *ClientConfig) {
-		c.timeout = time.Duration(t) * time.Millisecond
+		c.timeout = t
 	}
 }

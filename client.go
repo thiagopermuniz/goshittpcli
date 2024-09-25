@@ -28,8 +28,8 @@ func (c *ClientConfig) prepareRequest(ctx context.Context, method, endpoint stri
 
 	// Cria a requisição com o método e o corpo (se houver)
 	var body *bytes.Buffer
-	if reqConfig.body != nil {
-		body = bytes.NewBuffer(reqConfig.body)
+	if reqConfig.Body != nil {
+		body = bytes.NewBuffer(reqConfig.Body)
 	} else {
 		body = nil
 	}
@@ -39,13 +39,13 @@ func (c *ClientConfig) prepareRequest(ctx context.Context, method, endpoint stri
 	}
 
 	// Adiciona os cabeçalhos
-	for key, header := range reqConfig.headers {
+	for key, header := range reqConfig.Headers {
 		req.Header.Set(key, header)
 	}
 
 	// Adiciona os parâmetros de query string
 	q := req.URL.Query()
-	for key, value := range reqConfig.query {
+	for key, value := range reqConfig.Query {
 		q.Add(key, value)
 	}
 	req.URL.RawQuery = q.Encode()

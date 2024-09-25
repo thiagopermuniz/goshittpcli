@@ -5,41 +5,42 @@ import (
 	"time"
 )
 
+func NewRequestConfig() *RequestConfig {
+	return &RequestConfig{
+		headers: make(map[string]string),
+		query:   make(map[string]string),
+	}
+}
+
 func WithCustomTransport(ht *http.Client) ClientOption {
 	return func(c *ClientConfig) {
 		c.httpClient.Transport = ht.Transport
 	}
 }
 
-func WithHeader(key, value string) Option {
-	return func(c *ClientConfig) {
-		if c.headers == nil {
-			c.headers = make(map[string]Header)
-		}
-		c.headers[key] = Header{Value: value}
-	}
+// WithHeader adiciona um cabeçalho à configuração da requisição
+func (r *RequestConfig) WithHeader(key, value string) *RequestConfig {
+	r.headers[key] = value
+	return r
 }
 
-func WithQuery(key, value string) Option {
-	return func(c *ClientConfig) {
-		if c.query == nil {
-			c.query = make(map[string]string)
-		}
-		c.query[key] = value
-	}
+// WithQuery adiciona um parâmetro de query à configuração da requisição
+func (r *RequestConfig) WithQuery(key, value string) *RequestConfig {
+	r.query[key] = value
+	return r
 }
 
-func WithBody(body []byte) Option {
-	return func(c *ClientConfig) {
-		c.body = body
-	}
+// WithBody define o corpo da requisição
+func (r *RequestConfig) WithBody(body []byte) *RequestConfig {
+	r.body = body
+	return r
 }
 
-func WithRetry(r *Retry) ClientOption {
+func WithRetry(r *RetryConfig) ClientOption {
 	return func(c *ClientConfig) {
-		c.retry.hasRetry = true
-		c.retry.RetryAttempts = r.RetryAttempts
-		c.retry.RetryDelay = r.RetryDelay
+		c.retry.enabled = r.enabled
+		c.retry.attempts = r.attempts
+		c.retry.delay = r.delay
 	}
 }
 
